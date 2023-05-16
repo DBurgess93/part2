@@ -1,7 +1,9 @@
 import { useState } from 'react'
 
 const App = () => {
-  const [persons, setPersons] = useState([])
+  const [persons, setPersons] = useState([
+    { name: 'artis hellas', key: 'artic hellas' }
+  ])
   const [newName, setNewName] = useState('')
 
   const addName = (event) => {
@@ -23,7 +25,13 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addName} >
+      <form
+        onSubmit={
+          persons.map((person) => person.name).includes(newName)
+            ? () => alert(`${newName} is already in the phonebook`)
+            : addName
+        }
+      >
         <div>
           name: <input
             value={newName}
@@ -35,9 +43,9 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-        {persons.map(person => {
-          return <p key={person.key}> {person.name}</p>
-        })}
+      {persons.map(person => {
+        return <p key={person.key}> {person.name}</p>
+      })}
     </div>
   )
 }
