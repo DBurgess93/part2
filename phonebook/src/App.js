@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Filter = ({ filterText, handleChange }) => {
   return (
@@ -24,7 +25,7 @@ const Contacts = ({ persons, filterText }) => {
     <div>
       <h2>Contacts</h2>
       {filteredPersons.map((person) => (
-        <Contact key={person.key} id={person.id} person={person} />
+        <Contact key={person.id} id={person.id} person={person} />
       ))}
     </div>
   );
@@ -63,16 +64,21 @@ const NewContact = ({
 }
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'artis hellas', key: 'artis hellas', number: 123123123 },
-    { name: 'daniel burgess', key: 'daniel burgess', number: 932495948 },
-    { name: 'terry terrison', key: 'terry terrison', number: 577438039 },
-    { name: 'blob flerg', key: 'blob flerg', number: 768430358 },
-    { name: 'swincy swashton', key: 'swinsy swashton', number: 437592302 }
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterText, setFilterText] = useState('')
+
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }, [])
+  console.log('render', persons.length, 'persons')
 
   const addContact = (event) => {
     event.preventDefault()
