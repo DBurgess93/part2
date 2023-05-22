@@ -9,9 +9,9 @@ const Filter = ({ filterText, handleChange }) => {
   )
 }
 
-const Contact = ({ key, person }) => {
+const Contact = ({ id, person }) => {
   return (
-    <p key={key}> {person.name} - {person.number} </p>
+    <p key={id}> {person.name} - {person.number} </p>
   );
 };
 
@@ -24,7 +24,7 @@ const Contacts = ({ persons, filterText }) => {
     <div>
       <h2>Contacts</h2>
       {filteredPersons.map((person) => (
-        <Contact key={person.key} person={person} />
+        <Contact key={person.key} id={person.id} person={person} />
       ))}
     </div>
   );
