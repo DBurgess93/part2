@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import contactService from './services/contacts'
 
 const Filter = ({ filterText, handleChange }) => {
   return (
@@ -17,14 +17,14 @@ const Contact = ({ id, person }) => {
 };
 
 const Contacts = ({ persons, filterText }) => {
-  const filteredPersons = persons.filter((person) =>
-    person.name.includes(filterText)
+  const filteredPersons = persons && persons.filter((person) =>
+    person.name && person.name.includes(filterText)
   );
 
   return (
     <div>
       <h2>Contacts</h2>
-      {filteredPersons.map((person) => (
+      {filteredPersons && filteredPersons.map((person) => (
         <Contact key={person.id} id={person.id} person={person} />
       ))}
     </div>
@@ -70,13 +70,11 @@ const App = () => {
   const [filterText, setFilterText] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
+    contactService
+    .getAll()
+    .then(initialPersons => {
+      setPersons(initialPersons)
+    })
   }, [])
   console.log('render', persons.length, 'persons')
 
@@ -87,18 +85,13 @@ const App = () => {
       number: newNumber,
       key: newName
     }
-
-    axios
-      .post('http://localhost:3001/persons', nameObject)
-      .then(response => {
-        setPersons(persons.concat(response.data))
-        setNewName('')
-      })
-
-    console.log(nameObject)
-    setPersons(persons.concat(nameObject))
-    setNewName('')
-    setNewNumber('')
+    contactService
+    .create(nameObject)
+    .then(returnedNote => {
+      setPersons(persons.concat(returnedNote))
+      setNewName('')
+      setNewNumber('')
+    })
   }
 
   const handleNameChange = (event) => {
