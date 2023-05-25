@@ -10,13 +10,16 @@ const Filter = ({ filterText, handleChange }) => {
   )
 }
 
-const Contact = ({ id, person }) => {
+const Contact = ({ id, person, handleDelete }) => {
   return (
-    <p key={id}> {person.name} - {person.number} </p>
+    <div>
+      <p key={id}> {person.name} - {person.number} </p>
+      <button onClick={handleDelete} >delete</button>
+    </div>
   );
 };
 
-const Contacts = ({ persons, filterText }) => {
+const Contacts = ({ persons, filterText, handleDelete }) => {
   const filteredPersons = persons && persons.filter((person) =>
     person.name && person.name.includes(filterText)
   );
@@ -25,7 +28,7 @@ const Contacts = ({ persons, filterText }) => {
     <div>
       <h2>Contacts</h2>
       {filteredPersons && filteredPersons.map((person) => (
-        <Contact key={person.id} id={person.id} person={person} />
+        <Contact key={person.id} id={person.id} person={person} handleDelete={handleDelete} />
       ))}
     </div>
   );
@@ -109,6 +112,11 @@ const App = () => {
     setFilterText(event.target.value)
   }
 
+  const handleDelete = (id) => {
+    const updatedPersons = persons.filter(person => person.id !== id);
+    setPersons(updatedPersons);
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -121,7 +129,7 @@ const App = () => {
         handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange}
       />
-      <Contacts persons={persons} filterText={filterText} />
+      <Contacts persons={persons} filterText={filterText} handleDelete={handleDelete} />
 
     </div>
   )
