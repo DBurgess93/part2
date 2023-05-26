@@ -1,60 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
-    },
-    {
-      "name": "blurm",
-      "number": "clobv",
-      "key": "blurm",
-      "id": 5
-    },
-    {
-      "name": "tob glob",
-      "number": "2345353",
-      "key": "tob glob",
-      "id": 6
-    },
-    {
-      "name": "sdaf",
-      "number": "sadf",
-      "key": "sdaf",
-      "id": 7
-    },
-    {
-      "name": "dan",
-      "number": "234234",
-      "id": 8
-    },
-    {
-      "name": "sdf",
-      "number": "sdggd",
-      "id": 9
-    },
-    {
-      "name": "yo yo",
-      "number": "12341245",
-      "key": "yo yo",
-      "id": 10
-    },
-    {
       "name": "blue magoo",
       "number": "540834089340",
       "key": "blue magoo",
@@ -70,46 +16,10 @@
       "id": 13
     },
     {
-      "name": "aaron",
-      "number": "23423443",
-      "key": "aaron",
-      "id": 14
-    },
-    {
-      "name": "Aaron",
-      "number": "324324532",
-      "key": "Aaron",
-      "id": 15
-    },
-    {
-      "name": "zilo",
-      "number": "43534535",
-      "key": "zilo",
-      "id": 16
-    },
-    {
-      "name": "ad",
-      "number": "asd",
-      "key": "ad",
-      "id": 17
-    },
-    {
       "name": "",
       "number": "",
       "key": "",
       "id": 18
-    },
-    {
-      "name": "adf",
-      "number": "a32423",
-      "key": "adf",
-      "id": 19
-    },
-    {
-      "name": "dfdsds",
-      "number": "213342",
-      "key": "dfdsds",
-      "id": 20
     }
   ]
 }

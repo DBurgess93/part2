@@ -11,10 +11,14 @@ const Filter = ({ filterText, handleChange }) => {
 }
 
 const Contact = ({ id, person, handleDelete }) => {
+  const handleDeleteClick = (event) => {
+    event.preventDefault();
+    handleDelete(id);
+  };
   return (
     <div>
       <p key={id}> {person.name} - {person.number} </p>
-      <button onClick={handleDelete} >delete</button>
+      <button onClick={handleDeleteClick} >delete</button>
     </div>
   );
 };
@@ -74,10 +78,10 @@ const App = () => {
 
   useEffect(() => {
     contactService
-    .getAll()
-    .then(initialPersons => {
-      setPersons(initialPersons)
-    })
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+      })
   }, [])
   console.log('render', persons.length, 'persons')
 
@@ -89,12 +93,28 @@ const App = () => {
       key: newName
     }
     contactService
-    .create(nameObject)
-    .then(returnedNote => {
-      setPersons(persons.concat(returnedNote))
-      setNewName('')
-      setNewNumber('')
-    })
+      .create(nameObject)
+      .then(returnedContact => {
+        setPersons(persons.concat(returnedContact))
+        setNewName('')
+        setNewNumber('')
+      })
+  }
+
+  const deletePerson = (id, event) => {
+    if (event) {
+      event.preventDefault();
+    }
+
+    contactService
+      .deleteContact(id)
+      .then(() => {
+        const updatedPersons = persons.filter(person => person.id !== id)
+        setPersons(updatedPersons)
+      })
+      .catch(error => {
+        console.log('Error deleting contact:', error)
+      })
   }
 
   const handleNameChange = (event) => {
@@ -112,10 +132,7 @@ const App = () => {
     setFilterText(event.target.value)
   }
 
-  const handleDelete = (id) => {
-    const updatedPersons = persons.filter(person => person.id !== id);
-    setPersons(updatedPersons);
-  }
+
 
   return (
     <div>
@@ -129,7 +146,7 @@ const App = () => {
         handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange}
       />
-      <Contacts persons={persons} filterText={filterText} handleDelete={handleDelete} />
+      <Contacts persons={persons} filterText={filterText} handleDelete={deletePerson} />
 
     </div>
   )
