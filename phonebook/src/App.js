@@ -106,6 +106,11 @@ const App = () => {
       event.preventDefault();
     }
 
+    const confirmDelete = window.confirm('Are you sure you want to delete this contact?')
+    if (!confirmDelete) {
+      return
+    }
+
     contactService
       .deleteContact(id)
       .then(() => {
