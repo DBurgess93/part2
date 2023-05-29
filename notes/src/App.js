@@ -1,6 +1,18 @@
+import './index.scss'
 import { useState, useEffect } from 'react'
 import Note from './components/Note'
 import noteService from './services/notes'
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+  return (
+    <div className="error">
+      {message}
+    </div>
+  )
+}
 
 const App = () => {
   const [notes, setNotes] = useState([])
@@ -30,7 +42,7 @@ const App = () => {
         alert(
           `the note '${note.content}' was already deleted from server`
         )
-        setNotes(notes.filter(n => n.id !== id ))
+        setNotes(notes.filter(n => n.id !== id))
       })
   }
 
