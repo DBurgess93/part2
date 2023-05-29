@@ -50,11 +50,7 @@ const NewContact = ({
     <div>
       <h2>Add new</h2>
       <form
-        onSubmit={
-          persons.map((person) => person.name).includes(newName)
-            ? () => alert(`${newName} is already in the phonebook`)
-            : addContact
-        }
+        onSubmit={addContact}
       >
         <div>name:
           <input value={newName} onChange={handleNameChange} />
@@ -86,20 +82,46 @@ const App = () => {
   console.log('render', persons.length, 'persons')
 
   const addContact = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const nameObject = {
       name: newName,
       number: newNumber,
       key: newName
+    };
+
+    const existingContact = persons.find(person => person.name === newName);
+
+    if (existingContact) {
+      const confirmUpdate = window.confirm(`${newName} already exists. Do you want to update the number to ${newNumber}?`);
+      if (confirmUpdate) {
+        // Update the existing contact
+        contactService
+          .update(existingContact.id, nameObject)
+          .then(updatedContact => {
+            setPersons(persons.map(person =>
+              person.id === existingContact.id ? updatedContact : person
+            ));
+            setNewName('');
+            setNewNumber('');
+          })
+          .catch(error => {
+            console.log('Error updating contact:', error);
+          });
+      }
+    } else {
+      // Create a new contact
+      contactService
+        .create(nameObject)
+        .then(returnedContact => {
+          setPersons(persons.concat(returnedContact));
+          setNewName('');
+          setNewNumber('');
+        })
+        .catch(error => {
+          console.log('Error creating contact:', error);
+        });
     }
-    contactService
-      .create(nameObject)
-      .then(returnedContact => {
-        setPersons(persons.concat(returnedContact))
-        setNewName('')
-        setNewNumber('')
-      })
-  }
+  };
 
   const deletePerson = (id, event) => {
     if (event) {
