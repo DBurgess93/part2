@@ -16,10 +16,13 @@ const Contact = ({ id, person, handleDelete }) => {
     handleDelete(id);
   };
   return (
-    <div>
-      <p key={id}> {person.name} - {person.number} </p>
-      <button onClick={handleDeleteClick} >delete</button>
-    </div>
+    <ul>
+      <li key={id}>
+        {person.name} - {person.number}
+        <button onClick={handleDeleteClick} >delete</button>
+      </li>
+
+    </ul>
   );
 };
 
@@ -108,7 +111,8 @@ const App = () => {
             console.log('Error updating contact:', error);
           });
       }
-    } else {
+    }
+    else {
       // Create a new contact
       contactService
         .create(nameObject)
@@ -163,7 +167,7 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
       <Filter filterText={filterText} handleChange={handleFilterChange} />
       <NewContact
         persons={persons}
