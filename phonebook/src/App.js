@@ -10,6 +10,17 @@ const Filter = ({ filterText, handleChange }) => {
   )
 }
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+  return (
+    <div className="success">
+      {message}
+    </div>
+  )
+}
+
 const Contact = ({ id, person, handleDelete }) => {
   const handleDeleteClick = (event) => {
     event.preventDefault();
@@ -74,6 +85,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterText, setFilterText] = useState('')
+  const [successMessage, setSuccessMessage] = useState(null)
 
   useEffect(() => {
     contactService
@@ -120,6 +132,11 @@ const App = () => {
           setPersons(persons.concat(returnedContact));
           setNewName('');
           setNewNumber('');
+          setSuccessMessage('Contact added')
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000);
+          console.log(successMessage)
         })
         .catch(error => {
           console.log('Error creating contact:', error);
@@ -169,6 +186,7 @@ const App = () => {
     <div>
       <h1>Phonebook</h1>
       <Filter filterText={filterText} handleChange={handleFilterChange} />
+      <Notification message={successMessage} />
       <NewContact
         persons={persons}
         newName={newName}
