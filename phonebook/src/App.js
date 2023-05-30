@@ -135,7 +135,7 @@ const App = () => {
           setSuccessMessage('Contact added')
           setTimeout(() => {
             setSuccessMessage(null)
-          }, 5000);
+          }, 3000);
           console.log(successMessage)
         })
         .catch(error => {
