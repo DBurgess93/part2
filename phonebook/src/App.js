@@ -10,12 +10,12 @@ const Filter = ({ filterText, handleChange }) => {
   )
 }
 
-const Notification = ({ message }) => {
+const Notification = ({ message, style }) => {
   if (message === null) {
     return null
   }
   return (
-    <div className="success">
+    <div style={style}>
       {message}
     </div>
   )
@@ -86,6 +86,27 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterText, setFilterText] = useState('')
   const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
+
+  const errorStyle = {
+    color: 'red',
+    background: 'lightgrey',
+    fontSize: '20',
+    borderStyle: 'solid',
+    borderRadius: '5',
+    padding: '10',
+    marginBottom: '10'
+  }
+
+  const successStyle = {
+    color: 'green',
+    background: 'lightgrey',
+    fontSize: '20',
+    borderStyle: 'solid',
+    borderRadius: '5',
+    padding: '10',
+    marginBottom: '10'
+  }
 
   useEffect(() => {
     contactService
@@ -118,9 +139,17 @@ const App = () => {
             ));
             setNewName('');
             setNewNumber('');
+            setSuccessMessage(`${existingContact.name} has been updated`)
+            setTimeout(() => {
+              setSuccessMessage(null)
+            }, 3000)
           })
           .catch(error => {
             console.log('Error updating contact:', error);
+            setErrorMessage(`${existingContact.name} has already been removed`)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 3000)
           });
       }
     }
@@ -132,7 +161,7 @@ const App = () => {
           setPersons(persons.concat(returnedContact));
           setNewName('');
           setNewNumber('');
-          setSuccessMessage('Contact added')
+          setSuccessMessage(`${newName} has been added`)
           setTimeout(() => {
             setSuccessMessage(null)
           }, 3000);
@@ -186,7 +215,8 @@ const App = () => {
     <div>
       <h1>Phonebook</h1>
       <Filter filterText={filterText} handleChange={handleFilterChange} />
-      <Notification message={successMessage} />
+      <Notification message={successMessage} style={successStyle} />
+      <Notification message={errorMessage} style={errorStyle} />
       <NewContact
         persons={persons}
         newName={newName}
