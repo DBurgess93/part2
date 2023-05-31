@@ -15,7 +15,7 @@ const App = () => {
         .get(`https://studies.cs.helsinki.fi/restcountries/api/name/${country}`)
         .then(response => {
           setCountryInfo(response.data)
-          console.log(response.data)
+          console.log(response.data.languages)
         })
     }
   }, [country])
@@ -31,6 +31,14 @@ const App = () => {
     console.log(country)
   }
 
+  const formatLanguages = () => {
+    if (countryInfo.languages) {
+      const languages = Object.values(countryInfo.languages)
+      return languages.join(', ')
+    }
+    return ''
+  }
+
   return (
     <div>
       <h1>Countries</h1>
@@ -39,9 +47,11 @@ const App = () => {
         <button type="submit">get country info</button>
       </form>
       <div>
-        <h2>Country Name:</h2>
-        <p>Country Capital:</p>
-        <p>Country Area:</p>
+        <h2>Country Name: {country}</h2>
+        <p>Country Capital: {countryInfo.capital}</p>
+        <p>Country Area: {countryInfo.area}</p>
+        <p>Languages: {formatLanguages()}</p>
+        <p>{countryInfo.flag}</p>
       </div>
     </div>
   );
