@@ -34,9 +34,9 @@ const App = () => {
   const formatLanguages = () => {
     if (countryInfo.languages) {
       const languages = Object.values(countryInfo.languages)
-      return languages.join(', ')
+      return languages
     }
-    return ''
+    return []
   }
 
   return (
@@ -47,11 +47,18 @@ const App = () => {
         <button type="submit">get country info</button>
       </form>
       <div>
-        <h2>Country Name: {country}</h2>
+        <h2>{country}</h2>
         <p>Country Capital: {countryInfo.capital}</p>
         <p>Country Area: {countryInfo.area}</p>
         <p>Languages: {formatLanguages()}</p>
-        <p>{countryInfo.flag}</p>
+        <ul>
+          {formatLanguages().map((language, index) => (
+            <li key={index}>{language}</li>
+          ))}
+        </ul>
+        {countryInfo.flags && (
+          <img src={countryInfo.flags.png} alt={countryInfo.flags.alt} />
+        )}
       </div>
     </div>
   );
