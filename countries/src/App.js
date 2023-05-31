@@ -15,7 +15,7 @@ const App = () => {
         .get(`https://studies.cs.helsinki.fi/restcountries/api/name/${country}`)
         .then(response => {
           setCountryInfo(response.data)
-          console.log(response.data.languages)
+          console.log(response.data)
         })
     }
   }, [country])
